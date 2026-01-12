@@ -139,22 +139,24 @@ class LarrypixelsAPITester:
         )
 
     def test_user_signup(self):
-        """Test user signup"""
+        """Test user signup with password"""
         timestamp = datetime.now().strftime("%H%M%S")
         username = f"testuser_{timestamp}"
         discord = f"testuser_{timestamp}#0000"
+        password = "TestPass123!"
         
         success, response = self.run_test(
-            "User Signup", 
+            "User Signup with Password", 
             "POST", 
             "auth/signup", 
             200,
-            {"username": username, "discord_handle": discord}
+            {"username": username, "discord_handle": discord, "password": password}
         )
         
         if success:
             self.test_user = response.get('user', {})
             self.test_user['username'] = username
+            self.test_user['password'] = password
         return success
 
     def test_user_signup_duplicate(self):
