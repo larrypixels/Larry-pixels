@@ -248,8 +248,23 @@ async def increment_image_count(username: str):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     
     today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    last_active = user.get('last_active_date')
+    last_image_date = user.get('last_image_date')
+    daily_images = user.get('daily_images_today', 0)
+    has_unlimited = user.get('has_unlimited', False)
     
+    # Reset daily counter if it's a new day
+    if last_image_date != today_str:
+        daily_images = 0
+    
+    # Check daily limit (10 images per day unless unlimited)
+    if not has_unlimited and daily_images >= 10:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Daily limit reached. Invite 10 friends to unlock unlimited access!"
+        )
+    
+    # Update streak logic
+    last_active = user.get('last_active_date')
     if last_active == today_str:
         pass
     elif last_active == (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d"):
@@ -257,12 +272,25 @@ async def increment_image_count(username: str):
     else:
         await db.users.update_one({"username": username}, {"$set": {"streak_days": 1}})
     
+    # Increment counters
     await db.users.update_one(
         {"username": username},
-        {"$inc": {"images_created": 1}, "$set": {"last_active_date": today_str}}
+        {
+            "$inc": {"images_created": 1, "daily_images_today": 1},
+            "$set": {"last_active_date": today_str, "last_image_date": today_str}
+        }
     )
     
-    return {"message": "Image count updated"}
+    # Get updated count
+    updated_user = await db.users.find_one({"username": username}, {"_id": 0})
+    remaining = 10 - updated_user.get('daily_images_today', 0) if not has_unlimited else -1
+    
+    return {
+        "message": "Image count updated",
+        "daily_images_today": updated_user.get('daily_images_today', 0),
+        "remaining_today": remaining,
+        "has_unlimited": has_unlimited
+    }
 
 @api_router.get("/user/profile")
 async def get_user_profile(username: str):
