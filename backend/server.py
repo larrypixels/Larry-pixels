@@ -65,9 +65,11 @@ class VerifyCodeRequest(BaseModel):
 class SignupRequest(BaseModel):
     username: str
     discord_handle: str
+    password: str
 
 class LoginRequest(BaseModel):
     username: str
+    password: str
 
 class AdminLoginRequest(BaseModel):
     password: str
