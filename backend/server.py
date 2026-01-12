@@ -106,19 +106,36 @@ async def signup(request: SignupRequest):
     if existing:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already exists")
     
-    user = User(username=request.username, discord_handle=request.discord_handle)
+    # Hash password
+    password_hash = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    
+    user = User(
+        username=request.username, 
+        discord_handle=request.discord_handle,
+        password_hash=password_hash
+    )
     user_dict = user.model_dump()
     user_dict['created_at'] = user_dict['created_at'].isoformat()
     
     await db.users.insert_one(user_dict)
-    return {"user": user.model_dump(), "message": "User created successfully"}
+    
+    # Return user without password hash
+    user_response = {k: v for k, v in user_dict.items() if k != 'password_hash'}
+    return {"user": user_response, "message": "User created successfully"}
 
 @api_router.post("/auth/login")
 async def login(request: LoginRequest):
     user = await db.users.find_one({"username": request.username}, {"_id": 0})
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    return {"user": user, "message": "Login successful"}
+    
+    # Verify password
+    if not bcrypt.checkpw(request.password.encode('utf-8'), user['password_hash'].encode('utf-8')):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
+    
+    # Return user without password hash
+    user_response = {k: v for k, v in user.items() if k != 'password_hash'}
+    return {"user": user_response, "message": "Login successful"}
 
 @api_router.post("/auth/use-code")
 async def use_code(request: VerifyCodeRequest, username: str):
