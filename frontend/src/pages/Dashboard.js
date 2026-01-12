@@ -136,6 +136,26 @@ const Dashboard = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
+          {/* Larry Floor Link */}
+          <a
+            href="https://imbatman-03.github.io/Floor-Larry/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-2 border-white/20 bg-black p-6 hover:border-white hover:bg-secondary transition-all duration-300 group"
+            data-testid="larry-floor-link"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-mono text-sm uppercase tracking-widest text-white group-hover:text-glow transition-all" data-testid="larry-floor-title">
+                [ LARRY FLOOR ]
+              </h2>
+              <ExternalLink size={20} className="text-white group-hover:text-glow transition-all" />
+            </div>
+            
+            <p className="font-mono text-xs text-muted group-hover:text-white transition-all" data-testid="larry-floor-description">
+              Wanna see what's Larry? Shoot the tab!
+            </p>
+          </a>
+
           <div className="border-2 border-white/20 bg-black p-6">
             <h2 className="font-mono text-sm uppercase tracking-widest text-white mb-4" data-testid="daily-code-title">
               [ DAILY SHARE CODE ]
@@ -176,7 +196,26 @@ const Dashboard = () => {
               </div>
             )}
           </div>
+        </div>
 
+        {/* NFT Holder Benefits Section */}
+        <div className="mt-6 border-2 border-white bg-black p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <Crown size={24} className="text-white" />
+            <h2 className="font-mono text-sm uppercase tracking-widest text-white text-glow" data-testid="holder-benefits-title">
+              [ LARRY NFT HOLDER BENEFITS ]
+            </h2>
+          </div>
+          <div className="space-y-2 font-mono text-xs text-white">
+            <p data-testid="holder-benefit-1">✓ FULL ACCESS TO ALL FEATURES</p>
+            <p data-testid="holder-benefit-2">✓ UNLIMITED IMAGE CREATION (NO DAILY LIMITS)</p>
+            <p data-testid="holder-benefit-3">✓ NO WATERMARK ON GENERATED IMAGES</p>
+            <p data-testid="holder-benefit-4">✓ FIRST PRIORITY ACCESS TO NEW FEATURES</p>
+            <p className="text-muted mt-3" data-testid="holder-note">Holders are our VIP community members with exclusive perks!</p>
+          </div>
+        </div>
+
+        <div className="mt-6 grid lg:grid-cols-2 gap-6">
           <div className="border-2 border-white/20 bg-black p-6">
             <h2 className="font-mono text-sm uppercase tracking-widest text-white mb-4" data-testid="profile-title">
               [ PROFILE DATA ]
