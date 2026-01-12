@@ -39,6 +39,7 @@ class User(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     username: str
     discord_handle: str
+    password_hash: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     images_created: int = 0
     codes_shared: int = 0
