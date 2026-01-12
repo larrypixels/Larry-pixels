@@ -1,0 +1,124 @@
+{
+  "brand_identity": {
+    "name": "Larrypixels",
+    "aesthetic": "Retro Commercial / Terminal / Brutalist",
+    "core_values": ["Exclusive", "Raw", "Pixel-Perfect", "Monochrome"],
+    "emotional_tone": "Mysterious, Premium, Hacker-Elite"
+  },
+  "typography": {
+    "headings": {
+      "font_family": "\"VT323\", \"Press Start 2P\", monospace",
+      "weight": "400",
+      "style": "Pixelated, Uppercase",
+      "usage": "Main titles, Hero text, Section headers"
+    },
+    "body": {
+      "font_family": "\"Space Mono\", \"JetBrains Mono\", monospace",
+      "weight": "400",
+      "usage": "Paragraphs, UI labels, Inputs, Data display"
+    },
+    "google_fonts_import": "https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+  },
+  "colors": {
+    "palette": {
+      "background": "#050505",
+      "foreground": "#E0E0E0",
+      "primary": "#FFFFFF",
+      "secondary": "#1A1A1A",
+      "accent": "#FFFFFF",
+      "border": "#333333",
+      "muted": "#888888",
+      "destructive": "#FF0000"
+    },
+    "usage_rules": {
+      "background_strategy": "Always dark (#050505). Never use pure white backgrounds.",
+      "text_strategy": "High contrast white/gray. Use text-shadow for 'glow' effects.",
+      "border_strategy": "Visible, 1px or 2px solid borders. No soft shadows, use hard edges."
+    }
+  },
+  "visual_enhancers": {
+    "effects": [
+      {
+        "name": "Text Glow",
+        "css_class": "drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]",
+        "usage": "Hero headings, Active states, Key metrics"
+      },
+      {
+        "name": "Scanlines",
+        "css_rule": "background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px); pointer-events: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 50;",
+        "usage": "Global overlay on the entire app"
+      },
+      {
+        "name": "CRT Flicker",
+        "animation": "@keyframes flicker { 0% { opacity: 0.97; } 5% { opacity: 0.95; } 10% { opacity: 0.9; } 15% { opacity: 0.95; } 20% { opacity: 0.99; } 100% { opacity: 0.9; } }",
+        "usage": "Subtle animation on the main container"
+      }
+    ],
+    "borders": "Sharp corners (rounded-none). 2px solid borders for buttons and cards.",
+    "shadows": "Hard shadows only (e.g., box-shadow: 4px 4px 0px 0px #333). No blur."
+  },
+  "layout_strategies": {
+    "grid_system": "Bento Grid (Mode A) for the Studio and Dashboard. Asymmetric layouts.",
+    "spacing": "Generous padding (p-8, p-12). Use 'border-collapse' style for grids.",
+    "containers": "Window-like containers with a 'Title Bar' header (e.g., [ USER_STATS.EXE ])."
+  },
+  "components": {
+    "buttons": {
+      "style": "Rectangular, 2px border, uppercase text.",
+      "hover": "Invert colors (bg-white text-black) + slight displacement (translate-x-1 translate-y-1).",
+      "classes": "rounded-none border-2 border-white bg-black text-white hover:bg-white hover:text-black transition-all duration-75 font-mono uppercase tracking-widest"
+    },
+    "inputs": {
+      "style": "Terminal input style. No background, bottom border or blinking cursor block.",
+      "classes": "bg-transparent border-b-2 border-white/20 focus:border-white rounded-none font-mono placeholder:text-white/30 focus:ring-0"
+    },
+    "cards": {
+      "style": "Brutalist boxes. Black bg, White border.",
+      "classes": "bg-black border border-white/20 rounded-none p-6"
+    },
+    "modals": {
+      "style": "System Alert style. Centered, thick border, black overlay.",
+      "classes": "bg-black border-2 border-white shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]"
+    }
+  },
+  "image_assets": {
+    "hero_backgrounds": [
+      {
+        "url": "https://images.pexels.com/photos/978487/pexels-photo-978487.jpeg",
+        "description": "Glitch noise texture for overlays or backgrounds",
+        "category": "texture"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1601415104543-6f2d703a21d1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwzfHxyZXRybyUyMGNvbXB1dGVyJTIwdGVybWluYWwlMjBibGFjayUyMGFuZCUyMHdoaXRlfGVufDB8fHx8MTc2ODIyNzA2NHww&ixlib=rb-4.1.0&q=85",
+        "description": "Black CRT TV beside keyboard - good for hero prop",
+        "category": "hero"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1758573466985-afab16774425?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxyZXRybyUyMGNvbXB1dGVyJTIwdGVybWluYWwlMjBibGFjayUyMGFuZCUyMHdoaXRlfGVufDB8fHx8MTc2ODIyNzA2NHww&ixlib=rb-4.1.0&q=85",
+        "description": "Retro technician with CRT - good for 'About' or 'Login' side panel",
+        "category": "illustration"
+      }
+    ],
+    "placeholders": {
+      "user_avatar": "https://api.dicebear.com/7.x/pixel-art/svg?seed=User",
+      "admin_avatar": "https://api.dicebear.com/7.x/pixel-art/svg?seed=Admin"
+    }
+  },
+  "instructions_to_main_agent": [
+    "1. SETUP: Install 'lucide-react' and 'sonner'. Add the Google Fonts to index.html immediately.",
+    "2. THEME: Force Dark Mode. In 'tailwind.config.js', extend colors to use the specific hex codes provided in 'colors'. Override 'borderRadius' to 0px globally.",
+    "3. LAYOUT: Build the 'Gateway' page first. It must look like a secure terminal login. Use the 'Scanlines' effect globally.",
+    "4. COMPONENTS: Customize Shadcn components. Remove all rounded corners. Increase border thickness. Use 'Space Mono' for all UI text.",
+    "5. PIXELATION: For the image pixelation tool, use a client-side canvas approach. Do not upload images to server. Use a 'pixel size' slider.",
+    "6. GLOW: Apply the 'Text Glow' class to the 'Larrypixels' logo and key stats in the dashboard.",
+    "7. LEADERBOARD: Design it like a high-score arcade screen. Rank | User | Score.",
+    "8. ADMIN: The admin dashboard should look like a 'System Root' interface. Dense data, grid lines."
+  ],
+  "universal_guidelines": [
+    "Do not use gradients. Use solid blacks and whites.",
+    "Do not use rounded corners. Everything must be sharp (0px radius).",
+    "Use 'uppercase' for all labels and headers.",
+    "Always add 'data-testid' to interactive elements.",
+    "Use 'sonner' for notifications (styled as system alerts)."
+  ]
+}
