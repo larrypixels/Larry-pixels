@@ -80,6 +80,10 @@ def generate_code(length: int = 6) -> str:
 def calculate_score(images: int, codes: int, streak: int) -> int:
     return (images * 10) + (codes * 20) + (streak * 5)
 
+@api_router.get("/")
+async def root():
+    return {"message": "Larrypixels API"}
+
 # Auth endpoints
 @api_router.post("/auth/verify-code")
 async def verify_code(request: VerifyCodeRequest):
