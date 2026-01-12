@@ -125,3 +125,7 @@ lerna-debug.log*
 memory/
 .emergent/
 automation_output/
+-e 
+# Environment files
+*.env
+*.env.*
