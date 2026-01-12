@@ -47,9 +47,21 @@ const Studio = () => {
     const width = canvas.width;
     const height = canvas.height;
 
+    // Turn off image smoothing for pixelated effect
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(img, 0, 0, width / size, height / size);
-    ctx.drawImage(canvas, 0, 0, width / size, height / size, 0, 0, width, height);
+    ctx.mozImageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.msImageSmoothingEnabled = false;
+
+    // Calculate scaled dimensions
+    const scaledWidth = Math.ceil(width / size);
+    const scaledHeight = Math.ceil(height / size);
+
+    // Draw image small
+    ctx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
+
+    // Scale it back up to create pixelated effect
+    ctx.drawImage(canvas, 0, 0, scaledWidth, scaledHeight, 0, 0, width, height);
 
     setTimeout(() => setProcessing(false), 100);
   };
