@@ -324,8 +324,10 @@ class LarrypixelsAPITester:
         print("\n👤 USER AUTH TESTS")
         self.test_user_signup()
         self.test_user_signup_duplicate()
+        self.test_user_signup_short_password()
         self.test_user_login()
         self.test_user_login_nonexistent()
+        self.test_user_login_wrong_password()
         
         # User functionality tests
         print("\n⚙️ USER FUNCTIONALITY TESTS")
