@@ -74,7 +74,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <div className="border-2 border-white/20 bg-black p-6">
             <div className="flex items-center gap-3 mb-2">
               <ImageIcon size={20} className="text-white" />
@@ -113,6 +113,25 @@ const Dashboard = () => {
             <p className="font-pixel text-3xl text-white text-glow" data-testid="total-score">
               {score}
             </p>
+          </div>
+
+          <div className={`border-2 bg-black p-6 ${
+            (profile?.invited_users_count || 0) >= 10 ? 'border-white' : 'border-white/20'
+          }`}>
+            <div className="flex items-center gap-3 mb-2">
+              <Share2 size={20} className="text-white" />
+              <span className="font-mono text-xs uppercase text-muted" data-testid="invites-label">Users Invited</span>
+            </div>
+            <p className={`font-pixel text-3xl ${
+              (profile?.invited_users_count || 0) >= 10 ? 'text-white text-glow' : 'text-white'
+            }`} data-testid="invites-count">
+              {profile?.invited_users_count || 0}/10
+            </p>
+            {(profile?.invited_users_count || 0) >= 10 && (
+              <p className="font-mono text-xs text-white mt-2" data-testid="unlimited-badge">
+                UNLIMITED UNLOCKED
+              </p>
+            )}
           </div>
         </div>
 
