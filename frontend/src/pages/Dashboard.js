@@ -3,7 +3,7 @@ import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 import axios from 'axios';
 import Navbar from '@/components/Navbar';
-import { Copy, Check, Share2, ImageIcon, Zap, Flame } from 'lucide-react';
+import { Copy, Check, Share2, ImageIcon, Zap, Flame, ExternalLink, Crown } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
