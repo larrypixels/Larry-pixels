@@ -174,17 +174,17 @@ class LarrypixelsAPITester:
         )
 
     def test_user_login(self):
-        """Test user login"""
+        """Test user login with password"""
         if not self.test_user:
             self.log_test("User Login", False, "No test user available")
             return False
             
         return self.run_test(
-            "User Login", 
+            "User Login with Password", 
             "POST", 
             "auth/login", 
             200,
-            {"username": self.test_user['username']}
+            {"username": self.test_user['username'], "password": self.test_user['password']}
         )
 
     def test_user_login_nonexistent(self):
