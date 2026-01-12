@@ -203,10 +203,26 @@ const Studio = () => {
       return;
     }
 
-    const text = encodeURIComponent('Just created some retro pixel art with @larrynfts! 🎨✨\n\n#Larrypixels #PixelArt #RetroArt');
-    const url = 'https://twitter.com/intent/tweet?text=' + text;
-    window.open(url, '_blank');
-    toast.success('Share your creation on X!');
+    // Trigger download first
+    canvasRef.current.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `larrypixels_${Date.now()}.png`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      // Then open Twitter with text and webapp link
+      setTimeout(() => {
+        const webappUrl = window.location.origin;
+        const text = encodeURIComponent(
+          `Just created some retro pixel art with @larrynfts! 🎨✨\n\nCheck out Larrypixels: ${webappUrl}\n\n#Larrypixels #PixelArt #RetroArt`
+        );
+        const twitterUrl = 'https://twitter.com/intent/tweet?text=' + text;
+        window.open(twitterUrl, '_blank');
+        toast.success('Image downloaded! Now share on X with your pixel art attached!');
+      }, 500);
+    }, 'image/png');
   };
 
   const getRemainingText = () => {
