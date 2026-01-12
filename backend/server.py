@@ -117,10 +117,11 @@ async def signup(request: SignupRequest):
     user_dict = user.model_dump()
     user_dict['created_at'] = user_dict['created_at'].isoformat()
     
-    await db.users.insert_one(user_dict)
+    # Insert and get the result
+    result = await db.users.insert_one(user_dict)
     
-    # Return user without password hash
-    user_response = {k: v for k, v in user_dict.items() if k != 'password_hash'}
+    # Return user without password hash and _id
+    user_response = {k: v for k, v in user_dict.items() if k not in ['password_hash', '_id']}
     return {"user": user_response, "message": "User created successfully"}
 
 @api_router.post("/auth/login")
