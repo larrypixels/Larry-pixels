@@ -23,7 +23,8 @@ db = client[os.environ['DB_NAME']]
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
-ADMIN_PASSWORD = "Salam03"
+# Get admin password from environment variable
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'CHANGE_THIS_PASSWORD')
 
 # Models
 class AccessCode(BaseModel):
