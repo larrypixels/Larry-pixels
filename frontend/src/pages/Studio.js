@@ -3,7 +3,7 @@ import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 import axios from 'axios';
 import Navbar from '@/components/Navbar';
-import { Upload, Download, Zap, Sliders, Twitter, Palette } from 'lucide-react';
+import { Upload, Download, Zap, Sliders, Twitter, Palette, Info } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -85,6 +85,40 @@ const Studio = () => {
     ctx.putImageData(imageData, 0, 0);
   };
 
+  const sharpenImage = (ctx, width, height) => {
+    const imageData = ctx.getImageData(0, 0, width, height);
+    const data = imageData.data;
+    const weights = [-1, -1, -1, -1, 9, -1, -1, -1, -1];
+    const side = Math.round(Math.sqrt(weights.length));
+    const halfSide = Math.floor(side / 2);
+    const src = data.slice();
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const dstOff = (y * width + x) * 4;
+        let r = 0, g = 0, b = 0;
+
+        for (let cy = 0; cy < side; cy++) {
+          for (let cx = 0; cx < side; cx++) {
+            const scy = Math.min(height - 1, Math.max(0, y + cy - halfSide));
+            const scx = Math.min(width - 1, Math.max(0, x + cx - halfSide));
+            const srcOff = (scy * width + scx) * 4;
+            const wt = weights[cy * side + cx];
+            r += src[srcOff] * wt;
+            g += src[srcOff + 1] * wt;
+            b += src[srcOff + 2] * wt;
+          }
+        }
+
+        data[dstOff] = Math.min(255, Math.max(0, r));
+        data[dstOff + 1] = Math.min(255, Math.max(0, g));
+        data[dstOff + 2] = Math.min(255, Math.max(0, b));
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+  };
+
   const pixelateImage = (img, size, palette) => {
     if (!img || !canvasRef.current) return;
 
@@ -112,6 +146,9 @@ const Studio = () => {
     if (palette !== 'none') {
       applyColorPalette(ctx, width, height, palette);
     }
+
+    // Apply sharpening for enhanced clarity
+    sharpenImage(ctx, width, height);
 
     setTimeout(() => setProcessing(false), 100);
   };
@@ -184,13 +221,13 @@ const Studio = () => {
       <Navbar />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 flex items-start justify-between">
+        <div className="mb-6 flex items-start justify-between">
           <div>
             <h1 className="font-pixel text-4xl text-white text-glow mb-2" data-testid="studio-title">
               [ PIXEL_STUDIO.EXE ]
             </h1>
             <p className="font-mono text-sm text-muted uppercase tracking-wider" data-testid="studio-subtitle">
-              8-BIT IMAGE PROCESSOR
+              8-BIT IMAGE PROCESSOR - BETA
             </p>
           </div>
           {dailyStats && (
@@ -208,6 +245,19 @@ const Studio = () => {
               )}
             </div>
           )}
+        </div>
+
+        {/* Beta Info Banner */}
+        <div className="mb-6 border-2 border-white/20 bg-secondary p-4">
+          <div className="flex items-start gap-3">
+            <Info size={20} className="text-white mt-1 flex-shrink-0" />
+            <div className="font-mono text-xs text-white space-y-1">
+              <p className="uppercase font-bold" data-testid="beta-title">⚡ BETA PHASE - HELP US TEST!</p>
+              <p data-testid="beta-text-1">→ Create pixel art and climb to the top of the leaderboard</p>
+              <p data-testid="beta-text-2">→ Share your generated images on X with @larrynfts</p>
+              <p data-testid="beta-text-3">→ More styles coming soon - stay tuned!</p>
+            </div>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
@@ -368,7 +418,7 @@ const Studio = () => {
                 <p data-testid="info-line-2">→ LIMIT: 10 IMAGES/DAY</p>
                 <p data-testid="info-line-3">→ PROCESSING: CLIENT-SIDE</p>
                 <p data-testid="info-line-4">→ OUTPUT: PNG FORMAT</p>
-                <p data-testid="info-line-5">→ SHARE ON X WITH @LARRYNFTS</p>
+                <p data-testid="info-line-5">→ ENHANCED CLARITY APPLIED</p>
               </div>
             </div>
           </div>
