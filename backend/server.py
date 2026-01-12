@@ -44,6 +44,11 @@ class User(BaseModel):
     codes_shared: int = 0
     last_active_date: Optional[str] = None
     streak_days: int = 0
+    daily_images_today: int = 0
+    last_image_date: Optional[str] = None
+    invited_users_count: int = 0
+    has_unlimited: bool = False
+    invited_by: Optional[str] = None
 
 class DailyShareCode(BaseModel):
     model_config = ConfigDict(extra="ignore")
