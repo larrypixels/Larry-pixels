@@ -123,6 +123,26 @@ async def use_code(request: VerifyCodeRequest, username: str):
     if not code_doc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or already used code")
     
+    # Check if this code was created by another user (daily share code)
+    daily_code = await db.daily_codes.find_one({"code": request.code.upper()}, {"_id": 0})
+    if daily_code and daily_code.get('user_id'):
+        # Find the user who created this code
+        inviter = await db.users.find_one({"id": daily_code['user_id']}, {"_id": 0})
+        if inviter:
+            # Increment invited_users_count for the inviter
+            new_count = inviter.get('invited_users_count', 0) + 1
+            has_unlimited = new_count >= 10
+            await db.users.update_one(
+                {"id": daily_code['user_id']},
+                {"$set": {"invited_users_count": new_count, "has_unlimited": has_unlimited}}
+            )
+            
+            # Set invited_by for the new user
+            await db.users.update_one(
+                {"username": username},
+                {"$set": {"invited_by": inviter['username']}}
+            )
+    
     await db.access_codes.update_one(
         {"code": request.code.upper()},
         {"$set": {"is_used": True, "used_by": username}}
