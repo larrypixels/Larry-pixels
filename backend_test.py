@@ -170,7 +170,7 @@ class LarrypixelsAPITester:
             "POST", 
             "auth/signup", 
             400,
-            {"username": self.test_user['username'], "discord_handle": "duplicate#0000"}
+            {"username": self.test_user['username'], "discord_handle": "duplicate#0000", "password": "AnotherPass123!"}
         )
 
     def test_user_login(self):
