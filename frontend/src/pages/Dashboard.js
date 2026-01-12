@@ -152,7 +152,7 @@ const Dashboard = () => {
             </div>
             
             <p className="font-mono text-xs text-muted group-hover:text-white transition-all" data-testid="larry-floor-description">
-              Wanna see what's Larry? Shoot the tab!
+              Wanna see what&apos;s Larry? Shoot the tab!
             </p>
           </a>
 
