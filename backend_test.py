@@ -194,8 +194,38 @@ class LarrypixelsAPITester:
             "POST", 
             "auth/login", 
             404,
-            {"username": "nonexistentuser"}
+            {"username": "nonexistentuser", "password": "somepassword"}
         )
+
+    def test_user_login_wrong_password(self):
+        """Test user login with wrong password"""
+        if not self.test_user:
+            self.log_test("User Login Wrong Password", False, "No test user available")
+            return False
+            
+        return self.run_test(
+            "User Login Wrong Password", 
+            "POST", 
+            "auth/login", 
+            401,
+            {"username": self.test_user['username'], "password": "wrongpassword"}
+        )
+
+    def test_user_signup_short_password(self):
+        """Test user signup with password less than 6 characters"""
+        timestamp = datetime.now().strftime("%H%M%S")
+        username = f"shortpass_{timestamp}"
+        discord = f"shortpass_{timestamp}#0000"
+        
+        # This should be handled by frontend validation, but let's test backend behavior
+        success, response = self.run_test(
+            "User Signup Short Password", 
+            "POST", 
+            "auth/signup", 
+            200,  # Backend doesn't validate password length, frontend does
+            {"username": username, "discord_handle": discord, "password": "123"}
+        )
+        return success
 
     def test_user_profile(self):
         """Test user profile retrieval"""
