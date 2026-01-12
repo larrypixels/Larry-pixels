@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { UserPlus, LogIn } from 'lucide-react';
+import { UserPlus, LogIn, Twitter, MessageCircle } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -63,6 +63,35 @@ const Auth = () => {
             <p className="font-mono text-xs text-muted uppercase tracking-wider" data-testid="auth-subtitle">
               SYSTEM AUTHENTICATION REQUIRED
             </p>
+          </div>
+
+          {/* Social Links Section */}
+          <div className="mb-6 border border-white/20 bg-secondary p-4">
+            <p className="font-mono text-xs text-white uppercase mb-3" data-testid="need-code-text">
+              NEED AN ACCESS CODE?
+            </p>
+            <div className="space-y-2">
+              <a
+                href="https://twitter.com/larrynfts"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 font-mono text-xs text-muted hover:text-white transition-colors"
+                data-testid="twitter-link"
+              >
+                <Twitter size={14} />
+                <span>FOLLOW @LARRYNFTS ON X</span>
+              </a>
+              <a
+                href="https://discord.gg/m4cA8sfMP"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 font-mono text-xs text-muted hover:text-white transition-colors"
+                data-testid="discord-link"
+              >
+                <MessageCircle size={14} />
+                <span>JOIN DISCORD COMMUNITY</span>
+              </a>
+            </div>
           </div>
 
           <div className="flex gap-2 mb-6">
